@@ -1,0 +1,53 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Life</title>
+	<style type="text/css">
+	#board,.game-board,.panel{position:relative}.btn,label{display:inline-block}.btn,.form-control{line-height:1.4;background-image:none}*{box-sizing:border-box}body{margin:0;padding:0;font-family:"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif}#board{width:1193px;height:505px;overflow:hidden}.game-board{-webkit-user-select:none;-moz-user-select:none;-khtml-user-select:none;-ms-user-select:none;width:1500px;top:-207px;left:-103px;overflow:visible;background-color:#999;padding-left:24px}#steps-list,.row{overflow:auto}.game-board .cell{width:8px;height:8px;border:1px solid #999;float:left;background-color:#7E7E7E}.game-board .row{margin:0;padding:0;border:0;overflow:auto}.game-board .cell+.cell{border-left:0}.game-board .row+.row .cell{border-top:0}.life{background-color:#FF0!important}.controls{background-color:#7E7E7E;margin-top:10px;width:1193px}.btn-primary{color:#FFF;background-color:#008CBA;border-color:#0079A1}.btn-primary:hover{background-color:#006687;border-color:#004B63}.btn-primary:active:hover{background-color:#004B63;border-color:#001921}.btn{margin-bottom:0;font-weight:400;text-align:center;vertical-align:middle;cursor:pointer;border:1px solid transparent;white-space:nowrap;padding:3px 7px;font-size:15px;border-radius:0;box-shadow:0}.btn-success{color:#FFF;background-color:#43AC6A;border-color:#3C9A5F}.btn-success:hover{color:#FFF;background-color:#358753;border-color:#2B6E44}.btn-success:active:hover{color:#FFF;background-color:#2B6E44;border-color:#183E26}.btn-danger{color:#FFF;background-color:#F04124;border-color:#EA2F10}.btn-danger:hover{color:#FFF;background-color:#D32A0E;border-color:#B1240C}.btn-danger:active:hover{color:#FFF;background-color:#B1240C;border-color:#731708}.panel-body{background-color:#7E7E7E;padding:20px}.panel-info>.panel-heading{color:#FFF;background-color:#5BC0DE;border-color:#3DB5D8}.panel-heading{padding:10px 15px;border-bottom:1px solid transparent}.panel-info{border-color:#3DB5D8!important}.panel{left:0;right:0;margin:21px auto;width:1233px;background-color:#FFF;border:1px solid transparent;border-radius:0;box-shadow:0 1px 1px rgba(0,0,0,.05)}@media (min-width:600px){.col-xs-6{float:left;width:45%;margin-right:2.5%;margin-left:2.5%}}.btn-warning{color:#FFF;background-color:#E99002;border-color:#D08002}.btn-warning:hover{color:#FFF;background-color:#B67102;border-color:#935B01}.btn-warning:active:hover{color:#FFF;background-color:#935B01;border-color:#513201}.checkbox,.control-label,.help-block,.radio,label{font-size:12px;font-weight:400}label{max-width:100%;margin-bottom:5px;font-weight:700}.form-control{display:block;width:100%;height:39px;padding:8px 12px;font-size:15px;color:#6F6F6F;background-color:#FFF;border:1px solid #CCC;border-radius:0;box-shadow:0 1px 1px rgba(0,0,0,.075) inset;transition:border-color .15s ease-in-out 0s,box-shadow .15s ease-in-out 0s}textarea.form-control{height:auto}button,input,select,textarea{font-family:inherit;font-size:inherit;line-height:inherit}.text-center{text-align:center!important}#steps-list{max-height:130px}
+	</style>
+</head>
+<body>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			Jhon Conway's Game Of Life
+		</div> 
+		<div class="panel-body">
+			<div id ="board">
+			</div>
+			<div class="controls row text-center">
+				<div class="col-xs-6">
+					<div class="col-xs-6">
+						<p>
+							<button class="btn btn-primary" id="nextStep" onclick="nextStep()">Siguiente</button> 
+						</p>
+						<p>
+							<button class="btn btn-success" id="play" onclick="play(this)">Comenzar</button>
+						</p>
+						<p>
+							<button class="btn btn-danger" id="clear" onclick="clearBoard()">Reiniciar</button>
+						</p>
+						<p>
+							Pasos Totales: <b id="steps">0</b>
+						</p>
+					</div>
+					<div class="col-xs-6">
+						<label class="control-label" style="color:#FFF;font-size:14pt">Pasos</label>
+						<ol id="steps-list">
+						</ol>
+					</div>
+
+				</div>
+				<div class="col-xs-6">
+					<label class="control-label" style="color:#FFF;font-size:14pt" for="jsonString">Cargar Juego</label>
+					<textarea class="form-control" id="jsonString" style="margin-bottom:10px" autocomplete="false" placeholder="Pegue aqui la cadena de texto"></textarea>
+					<button class="btn btn-warning" id="loadString">Cargar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+	function addTogleCellState(e){for(var l=document.querySelectorAll(".game-board .row"),a=0;a<l.length;a++){l[a].cells=l[a].querySelectorAll(".cell");for(var t=0;t<l[a].cells.length;t++)l[a].cells[t].onmousedown=function(e){var l=e.target;"cell life"==l.className?l.className="cell":l.className="cell life"},l[a].cells[t].onmouseover=function(e){var l=e.target;1==e.buttons&&("cell life"==l.className?l.className="cell":l.className="cell life")}}}function createGameBoard(e,l){if(""==e||0==e||""==l||0==l)return void console.log("Error");var a=document.createElement("div");a.className="game-board";for(var t=0;l>t;t++){var r=document.createElement("div");r.className="row";for(var n=0;e>n;n++){var s=document.createElement("div");s.className="cell",r.appendChild(s)}a.appendChild(r)}document.getElementById("board").appendChild(a)}function initGame(){document.getElementById("board").innerHTML="",createGameBoard(160,110),addTogleCellState()}function nextStep(){for(var e=document.querySelectorAll(".game-board .row"),l=e.length,a=e[0].cells.length,t=new Array(l),r=0;r<t.length;r++)t[r]=new Array(a);for(var r=0;r<e.length;r++)for(var n=0;n<e[r].cells.length;n++){var s=e[r].cells[n];s.nears=[],s.totalNears=0,r>0?(n>0&&"cell life"==e[r-1].cells[n-1].className?s.nears[0]=1:s.nears[0]=0,"cell life"==e[r-1].cells[n].className?s.nears[1]=1:s.nears[1]=0,a-1>n&&"cell life"==e[r-1].cells[n+1].className?s.nears[2]=1:s.nears[2]=0):(s.nears[0]=0,s.nears[1]=0,s.nears[2]=0),a-1>n&&"cell life"==e[r].cells[n+1].className?s.nears[3]=1:s.nears[3]=0,l-1>r?(a-1>n&&"cell life"==e[r+1].cells[n+1].className?s.nears[4]=1:s.nears[4]=0,"cell life"==e[r+1].cells[n].className?s.nears[5]=1:s.nears[5]=0,n>0&&"cell life"==e[r+1].cells[n-1].className?s.nears[6]=1:s.nears[6]=0):(s.nears[4]=0,s.nears[5]=0,s.nears[6]=0),n>0&&"cell life"==e[r].cells[n-1].className?s.nears[7]=1:s.nears[7]=0;for(var c=0;c<s.nears.length;c++)1==s.nears[c]&&s.totalNears++;"cell life"==s.className?s.totalNears<=1||s.totalNears>=4?t[r][n]=0:t[r][n]=1:3==s.totalNears?t[r][n]=1:t[r][n]=0}if(0==stepCount){for(var o=[],r=0;r<e.length;r++){o[r]=[];for(var n=0;n<e[r].cells.length;n++)s=e[r].cells[n],"cell"==e[r].cells[n].className?o[r][n]=0:o[r][n]=1}allSteps=[],allSteps[stepCount]=o;var m=document.createElement("li"),d=document.createElement("textarea");d.className="form-control",d.innerHTML=JSON.stringify(allSteps[stepCount]),m.appendChild(d),document.getElementById("steps-list").appendChild(m)}for(var r=0;r<t.length;r++)for(var n=0;n<t[r].length;n++)0==t[r][n]?e[r].cells[n].className="cell":e[r].cells[n].className="cell life";stepCount++,allSteps[stepCount]=t,document.getElementById("steps").innerHTML=stepCount;var m=document.createElement("li"),d=document.createElement("textarea");d.className="form-control",d.innerHTML=JSON.stringify(allSteps[stepCount]),m.appendChild(d),document.getElementById("steps-list").appendChild(m)}function play(e){null==playVar||""==playVar?(playVar=setInterval(nextStep,100),e.innerHTML="Parar"):(clearInterval(playVar),playVar="",e.innerHTML="Comenzar")}function clearBoard(){for(var e=document.querySelectorAll(".game-board .cell"),l=0;l<e.length;l++)e[l].className="cell";stepCount=0,document.getElementById("steps-list").innerHTML="",document.getElementById("steps").innerHTML=stepCount}function stringToBoard(){var e=document.getElementById("jsonString");e=e.value;var l=JSON.parse(e);clearBoard();for(var a=document.querySelectorAll(".game-board .row"),t=0;t<l.length;t++)for(var r=0;r<l[t].length;r++)0==l[t][r]?a[t].cells[r].className="cell":a[t].cells[r].className="cell life"}initGame();var stepCount=0,allSteps=[],playVar;document.getElementById("loadString").onclick=stringToBoard;
+	</script>
+</body>
+</html>

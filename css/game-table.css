@@ -1,0 +1,57 @@
+*{
+	box-sizing:border-box;
+}
+
+#board .game-board{
+}
+
+#board{
+	overflow: hidden;
+	left: 0;
+	right: 0;
+	position: relative;
+	margin: auto;
+}
+.game-board{
+	border-collapse: separate;
+	left: 0;
+	right: 0;
+	position: relative;
+	margin: auto;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-ms-user-select:none;
+}
+
+.game-board td{
+	width: 7px;
+	height: 8px;
+	border: 1px solid #7D7D7D;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-ms-user-select:none;
+
+}
+
+.game-board td:hover{
+	background-color: #c0c0c0;
+}
+
+.game-board td + td{
+	border-left: 0;
+}
+
+.game-board tr + tr td{
+	border-top: 0;
+}
+
+.life{
+	background-color: #000 !important;
+}
+
+
+.btn-green{
+	
+}

@@ -1,0 +1,318 @@
+<html>
+<head>
+	<link rel="icon" type="image/png" href="img/favicon.png" />
+	<meta charset="UTF-8">
+	<title>Life</title>
+	<style type="text/css">
+		*{
+			box-sizing:border-box;
+		}
+		body{
+			margin: 0;
+			padding: 0;
+			font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+		}
+		#board{
+			width: 1193px;
+			height: 505px;
+			overflow: hidden;
+			position: relative;
+
+		}
+		.game-board{
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-khtml-user-select: none;
+			-ms-user-select:none;
+			width: 1500px;
+			position: relative;
+			top: -207px;
+			left: -103px;
+			overflow: visible;
+			background-color: #999999;
+			padding-left: 24px
+
+		}
+
+		.game-board .cell{
+			width: 8px;
+			height: 8px;
+			border: 1px solid #999999;
+			float: left;
+			background-color: #7E7E7E;
+
+		}
+		.game-board .cell:hover{
+			background-color: #999999;
+		}
+
+		.game-board .row{
+			margin: 0;
+			padding: 0;
+			border: 0;
+			overflow: auto;
+		}
+
+		.game-board .cell + .cell{
+			border-left: 0;
+		}
+
+		.game-board .row + .row .cell{
+			border-top: 0;
+		}
+
+		.life{
+			background-color: #FFFF00 !important;
+		}
+
+		.controls{
+			background-color: #7E7E7E;
+			margin-top:10px;
+			width: 1193px;
+		}
+
+		.btn-primary {
+			color: #FFF;
+			background-color: #008CBA;
+			border-color: #0079A1;
+		}
+
+		.btn-primary:hover {
+			background-color: #006687;
+			border-color: #004B63;
+		}
+
+		.btn-primary:active:hover{
+			background-color: #004B63;
+			border-color: #001921;
+		}
+
+		.btn {
+			display: inline-block;
+			margin-bottom: 0px;
+			font-weight: normal;
+			text-align: center;
+			vertical-align: middle;
+			cursor: pointer;
+			background-image: none;
+			border: 1px solid transparent;
+			white-space: nowrap;
+			padding: 3px 7px;
+			font-size: 15px;
+			line-height: 1.4;
+			border-radius: 0px;
+			box-shadow: 0;
+
+		}
+		.btn-success {
+			color: #FFF;
+			background-color: #43AC6A;
+			border-color: #3C9A5F;
+		}
+		.btn-success:hover {
+			color: #FFF;
+			background-color: #358753;
+			border-color: #2B6E44;
+		}
+		.btn-success:active:hover{
+			color: #FFF;
+			background-color: #2B6E44;
+			border-color: #183E26;
+		}
+		.btn-danger {
+			color: #FFF;
+			background-color: #F04124;
+			border-color: #EA2F10;
+		}
+		.btn-danger:hover {
+			color: #FFF;
+			background-color: #D32A0E;
+			border-color: #B1240C;
+		}
+		.btn-danger:active:hover {
+			color: #FFF;
+			background-color: #B1240C;
+			border-color: #731708;
+		}
+
+		.panel{
+			position: relative;
+			left: 0;
+			right: 0;
+			margin: auto;
+			width: 1233px;
+		}
+
+		.panel-body{
+			background-color: #7E7E7E;
+			padding: 20px;
+
+		}
+
+		.panel-info > .panel-heading {
+			color: #FFF;
+			background-color: #5BC0DE;
+			border-color: #3DB5D8;
+		}
+		.panel-heading {
+			padding: 10px 15px;
+			border-bottom: 1px solid transparent;
+		}
+
+		.panel-info {
+			border-color: #3DB5D8 !important;
+		}
+		.panel {
+			margin-top: 21px;
+			margin-bottom: 21px;
+			background-color: #FFF;
+			border: 1px solid transparent;
+			border-radius: 0px;
+			box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+		}
+
+		@media (min-width: 600px){
+			.col-xs-6{
+				float: left;
+				width: 45%;
+				margin-right: 2.5%;
+				margin-left: 2.5%;
+			}
+		}
+
+		.row{
+			overflow: auto;
+		}
+
+		.btn-warning {
+			color: #FFF;
+			background-color: #E99002;
+			border-color: #D08002;
+		}
+		.btn-warning:hover {
+			color: #FFF;
+			background-color: #B67102;
+			border-color: #935B01;
+		}
+		.btn-warning:active:hover {
+			color: #FFF;
+			background-color: #935B01;
+			border-color: #513201;
+		}
+
+		label, .control-label, .help-block, .checkbox, .radio {
+			font-size: 12px;
+			font-weight: normal;
+		}
+		label {
+			display: inline-block;
+			max-width: 100%;
+			margin-bottom: 5px;
+			font-weight: bold;
+		}
+
+		.form-control {
+			display: block;
+			width: 100%;
+			height: 39px;
+			padding: 8px 12px;
+			font-size: 15px;
+			line-height: 1.4;
+			color: #6F6F6F;
+			background-color: #FFF;
+			background-image: none;
+			border: 1px solid #CCC;
+			border-radius: 0px;
+			box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+			transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+		}
+		textarea.form-control {
+			height: auto;
+		}
+
+		input, button, select, textarea {
+			font-family: inherit;
+			font-size: inherit;
+			line-height: inherit;
+		}
+
+		.text-center{
+			text-align: center !important;
+		}
+
+		#steps-list{
+			max-height: 130px;
+			overflow: auto;
+		}
+
+		.controls-buttons button{
+			display: block;
+			min-width: 95px;
+			position: relative;
+			left: 0;
+			right: 0;
+			margin: auto;
+			margin-bottom: 10px
+		}
+
+		#load-message{
+			text-align: left;
+			margin-top: 5px;
+			display: none;
+		}
+
+		#gamemode-message{
+			text-align: left;
+			margin-top: 5px;
+			display: none;
+		}
+
+		.text-danger{
+			color: #F04124;
+		}
+
+		.text-success {
+			color: #43AC6A;
+		}
+	</style>
+</head>
+<body>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			Jhon Conway's Game Of Life
+		</div> 
+		<div class="panel-body">
+			<div id ="board">
+			</div>
+			<div class="controls row text-center">
+				<div class="col-xs-6">
+					<div class="col-xs-6">
+						<div class="controls-buttons">
+							<button class="btn btn-primary" id="nextStep" onclick="requestAnimationFrame(nextStep);">Siguiente</button> 
+							<button class="btn btn-success" id="play" onclick="play()">Comenzar</button>
+							<button class="btn btn-danger" id="clear" onclick="clearBoard()">Reiniciar</button>
+						</div>
+						<p style="color:#FFF;font-size:14pt">
+							Pasos Totales: <b id="steps">0</b>
+						</p>
+					</div>
+					<div class="col-xs-6">
+						<label class="control-label" style="color:#FFF;font-size:14pt">Pasos</label>
+						<ol id="steps-list">
+						</ol>
+					</div>
+
+				</div>
+				<div class="col-xs-6">
+					<label class="control-label" style="color:#FFF;font-size:14pt" for="jsonString">Cargar Juego</label>
+					<textarea class="form-control" id="jsonString" style="margin-bottom:10px" autocomplete="false" placeholder="Pegue aqui la cadena de texto"></textarea>
+					<button class="btn btn-warning" id="loadString" onclick="stringToBoard()">Cargar</button>
+					<p class=""  id="load-message"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="js/game.js"></script>
+</body>
+</html>
